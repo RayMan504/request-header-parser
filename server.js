@@ -11,7 +11,23 @@ app.get('/', function(req, res) {
     const ipAddress = req.headers['x-forwarded-for'];
     console.log(agent);
     console.log(ipAddress);
-    res.send('Hello World');
+    // if ip address is true
+    if(ipAddress) {
+        // make ip address an array
+        const list = ipAddress.split(',');
+        // assign address to last element of array
+        ipAddress = list[list.length -1];
+    } else {
+        // get new ip address?
+        ipAddress = req.connection.remoteAddress;
+    }
+    // send response object to client
+    res.json({
+       ip: ipAddress,
+       "language": req.headers['accept-language'].split(',')[0],
+    //   detect operating system
+       OS: agent.os.family,
+    });
 })
 
 app.listen(8080, function() {
