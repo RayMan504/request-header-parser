@@ -3,14 +3,17 @@ const express = require('express');
 const useragent = require('useragent');
 const app = express();
 
+
 app.get('/', function(req, res) {
-    res.send('hello world');
+    // find agent in req object
+    const agent = useragent.parse(req.headers['user-agent']);
+    // find ip address in req object
+    const ipAddress = req.headers['x-forwarded-for'];
+    console.log(agent);
+    console.log(ipAddress);
+    res.send('Hello World');
 })
 
 app.listen(8080, function() {
     console.log('Listening on port 8080');
 });
-
-app.get('/:address', function(req, res) {
-    
-})
